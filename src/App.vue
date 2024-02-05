@@ -6,6 +6,12 @@
       <h1>Pinia Tasks</h1>
     </header>
 
+    <!-- new task from -->
+
+    <div class="new-task-form">
+      <TaskForm />
+    </div>
+
     <!-- filter -->
 
     <div class="filter">
@@ -32,6 +38,7 @@
 <script setup>
 import { ref } from "vue";
 import TaskDetail from "./components/TaskDetail.vue";
+import TaskForm from "./components/TaskForm.vue";
 import { useTaskStore } from "./stores/taskStore";
 import { storeToRefs } from "pinia";
 
