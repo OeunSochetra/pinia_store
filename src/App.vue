@@ -40,9 +40,15 @@ import { ref } from "vue";
 import TaskDetail from "./components/TaskDetail.vue";
 import TaskForm from "./components/TaskForm.vue";
 import { useTaskStore } from "./stores/taskStore";
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 
 const taskStore = useTaskStore();
+
+onMounted(() => {
+  taskStore.fetchData;
+});
+
 // const { tasks } = storeToRefs(taskStore);
 const filter = ref("all");
 </script>
