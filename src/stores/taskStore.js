@@ -4,11 +4,11 @@ import { GET_DATA } from "../../api/task"; // Ensure this path is correct and GE
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref([]);
-
   // Fetch tasks data from API
   const fetchData = async () => {
     try {
       const data = await GET_DATA();
+      console.log("data", data);
       tasks.value = data;
     } catch (error) {
       console.error("fetch data error", error);

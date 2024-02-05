@@ -46,7 +46,7 @@ import { storeToRefs } from "pinia";
 const taskStore = useTaskStore();
 
 onMounted(() => {
-  taskStore.fetchData;
+  taskStore.fetchData();
 });
 
 // const { tasks } = storeToRefs(taskStore);
