@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { GET_DATA } from "../../api/task"; // Ensure this path is correct and GET_DATA is properly implemented
+import { GET_TASKS } from "../../api/task"; // Ensure this path is correct and GET_DATA is properly implemented
+import { POST_TASK } from "../../api/task";
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref([]);
   // Fetch tasks data from API
   const fetchData = async () => {
     try {
-      const data = await GET_DATA();
+      const data = await GET_TASKS();
       console.log("data", data);
       tasks.value = data;
     } catch (error) {
@@ -20,9 +21,15 @@ export const useTaskStore = defineStore("taskStore", () => {
   const favCount = computed(() => fav.value.length);
   const totalCount = computed(() => tasks.value.length);
 
-  // Function to add a new task
-  const addTask = (task) => {
-    tasks.value.push(task);
+  // Function to add a new task to API
+  const addTask = async (task) => {
+    // tasks.value.push(task);
+    try {
+      const response = await POST_TASK(task);
+      task.value.push(task);
+    } catch (error) {
+      console.error("post add new task error", error);
+    }
   };
 
   // Function to remove a task by id
