@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useTaskStore } from "../stores/taskStore";
 
 const taskStore = useTaskStore();
@@ -25,6 +25,16 @@ const handleSubmit = () => {
     return;
   }
 };
+
+// add watch for data change to update data in UI without fresh the page
+
+// watch(
+//   () => taskStore.tasks,
+//   (newTask, oldTask) => {
+//     console.log("Task changed ", newTask, oldTask);
+//   },
+//   { deep: true }
+// );
 </script>
 
 <style scoped></style>

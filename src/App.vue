@@ -19,7 +19,12 @@
       <button @click="filter = 'fav'">Favorite Tasks</button>
     </div>
 
+    <!-- loading tasks -->
+
+    <div v-if="taskStore.isLoading" class="loading">Loading Task...</div>
+
     <!-- Tasks Listing -->
+
     <div class="task-list" v-if="filter === 'all'">
       <p>You have total tasks {{ taskStore.totalCount }} to do</p>
       <div v-for="task in taskStore.tasks" :key="task.id">
@@ -44,12 +49,12 @@ import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 
 const taskStore = useTaskStore();
+const { tasks, isLoading, fav, totalCount, favCount } = storeToRefs(taskStore);
 
 onMounted(() => {
   taskStore.fetchData();
 });
 
-// const { tasks } = storeToRefs(taskStore);
 const filter = ref("all");
 </script>
 
