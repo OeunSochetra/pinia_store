@@ -59,7 +59,7 @@ header h1 {
   color: #bbb;
 }
 .task i.active {
-  color: #ff005d;
+  color: #ffe46a;
 }
 
 /* filter nav */
@@ -93,7 +93,7 @@ form {
   gap: 10px;
 }
 form button {
-  background: #ffd859;
+  background: #ffe46a;
   border: 0;
   padding: 10px;
   font-family: "Poppins";

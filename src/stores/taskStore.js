@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { GET_TASKS } from "../../api/task"; // Ensure this path is correct and GET_DATA is properly implemented
-import { POST_TASK } from "../../api/task";
+// Ensure this path is correct and GET_DATA is properly implemented
+import { GET_TASKS, POST_TASK, DELETE_TASK, TOGGLE_FAV } from "../../api/task";
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref([]);
@@ -19,7 +19,7 @@ export const useTaskStore = defineStore("taskStore", () => {
       } finally {
         isLoading.value = false;
       }
-    }, 2000);
+    }, 1000);
   };
 
   // Computed properties for filtering favorites and calculating counts
@@ -31,26 +31,37 @@ export const useTaskStore = defineStore("taskStore", () => {
   const addTask = async (task) => {
     try {
       const response = await POST_TASK(task);
-      task.value.push(task);
+      task.value?.push(task);
+      await fetchData(); // after add new task call this to fetch data to refresh UI
     } catch (error) {
       console.error("post add new task error", error);
     }
   };
 
   // Function to remove a task by id
-  const removeTask = (id) => {
-    const index = tasks.value.findIndex((t) => t.id === id);
-    if (index !== -1) {
-      tasks.value.splice(index, 1);
-      alert(`Task with ID ${id} has been removed`);
+  const removeTask = async (id) => {
+    try {
+      const response = await DELETE_TASK(id);
+      tasks.value = tasks.value.filter((t) => {
+        return t.id !== id;
+      });
+    } catch (error) {
+      console.error("Could not delete the Task", error);
     }
   };
 
   // Function to toggle the favorite status of a task by id
-  const toggleFav = (id) => {
+  const toggleFav = async (id) => {
     const task = tasks.value.find((t) => t.id === id);
+
     if (task) {
-      task.isFav = !task.isFav;
+      try {
+        const updateToggle = await TOGGLE_FAV(id, !task.isFav);
+        // Assuming the server returns the updated task, directly update the task in the local state
+        Object.assign(task, updateToggle);
+      } catch (error) {
+        "Failed to toggle favorite status", error;
+      }
     }
   };
 
